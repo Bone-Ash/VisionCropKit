@@ -25,82 +25,80 @@ public struct VisionCropView: View {
     }
     
     public var body: some View {
-        HStack(spacing: 0) {
-            GeometryReader { geometry in
-                Image(uiImage: sourceImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .overlay {
-                        if let viewModel { CropFrameView(viewModel: viewModel) }
-                    }
-                    .onAppear {
-                        if viewModel == nil {
-                            viewModel = CropViewModel(
-                                containerSize: geometry.size,
-                                imageAspect: sourceImage.size.width / sourceImage.size.height,
-                                ratio: selectedRatio.ratio,
-                                initialCropRect: initialRect,
-                                onRectChange: { rect in
-                                    self.cropRect = rect
-                                }
-                            )
-                        }
-                    }
-            }
-            .background(Material.regular)
-            .overlay(alignment: .topLeading) {
-                Button {
-                    onComplete(nil)
-                    dismiss()
-                } label: {
-                    Circle()
-                        .fill(Material.bar)
-                        .frame(height: 44)
-                        .overlay {
-                            Image(systemName: "xmark")
-                        }
-                        .hoverEffect()
+        GeometryReader { geometry in
+            Image(uiImage: sourceImage)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay {
+                    if let viewModel { CropFrameView(viewModel: viewModel) }
                 }
-                .padding(22)
-                .buttonStyle(.plain)
+                .onAppear {
+                    if viewModel == nil {
+                        viewModel = CropViewModel(
+                            containerSize: geometry.size,
+                            imageAspect: sourceImage.size.width / sourceImage.size.height,
+                            ratio: selectedRatio.ratio,
+                            initialCropRect: initialRect,
+                            onRectChange: { rect in
+                                self.cropRect = rect
+                            }
+                        )
+                    }
+                }
+        }
+        .background(Material.regular)
+        .overlay(alignment: .topLeading) {
+            Button {
+                onComplete(nil)
+                dismiss()
+            } label: {
+                Circle()
+                    .fill(Material.bar)
+                    .frame(height: 44)
+                    .overlay {
+                        Image(systemName: "xmark")
+                    }
+                    .hoverEffect()
             }
-            .overlay(alignment: .top) {
-                Menu("选择比例" + selectedRatio.displayName) {
-                    ForEach(CropAspectRatio.allCases, id: \.displayName) { ratio in
-                        Button {
-                            selectedRatio = ratio
-                            viewModel?.applyRatio(ratio.ratio)
-                        } label: {
-                            HStack {
-                                Text(ratio.displayName)
-                                if selectedRatio.displayName == ratio.displayName {
-                                    Image(systemName: "checkmark")
-                                }
+            .padding(22)
+            .buttonStyle(.plain)
+        }
+        .overlay(alignment: .top) {
+            Menu("选择比例" + selectedRatio.displayName) {
+                ForEach(CropAspectRatio.allCases, id: \.displayName) { ratio in
+                    Button {
+                        selectedRatio = ratio
+                        viewModel?.applyRatio(ratio.ratio)
+                    } label: {
+                        HStack {
+                            Text(ratio.displayName)
+                            if selectedRatio.displayName == ratio.displayName {
+                                Image(systemName: "checkmark")
                             }
                         }
                     }
                 }
-                .padding(.top, 22)
             }
-            .overlay(alignment: .bottom) {
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(viewModel == nil ? .black.opacity(0.2) : .white)
-                    .frame(width: 120, height: 44)
-                    .overlay {
-                        Text("裁切")
-                            .font(.headline)
-                            .foregroundStyle(.black)
+            .padding(.top, 22)
+        }
+        .overlay(alignment: .bottom) {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(viewModel == nil ? .black.opacity(0.2) : .white)
+                .frame(width: 120, height: 44)
+                .overlay {
+                    Text("裁切")
+                        .font(.headline)
+                        .foregroundStyle(.black)
+                }
+                .onTapGesture {
+                    if let viewModel {
+                        let croppedImage = cropImage(sourceImage, with: viewModel.normalizedRect)
+                        onComplete(croppedImage)
+                        dismiss()
                     }
-                    .onTapGesture {
-                        if let viewModel {
-                            let croppedImage = cropImage(sourceImage, with: viewModel.normalizedRect)
-                            onComplete(croppedImage)
-                            dismiss()
-                        }
-                    }
-                    .padding(.bottom, 22)
-            }
+                }
+                .padding(.bottom, 22)
         }
     }
     

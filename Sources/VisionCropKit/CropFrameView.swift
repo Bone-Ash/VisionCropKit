@@ -68,27 +68,6 @@ struct CropFrameView: View {
     }
 }
 
-//struct RatioButton: View {
-//    let title: String
-//    let isSelected: Bool
-//    let action: () -> Void
-//    
-//    var body: some View {
-//        Button(action: action) {
-//            Text(title)
-//                .font(.system(size: 14, weight: .medium))
-//                .foregroundStyle(isSelected ? .black : .white)
-//                .padding(.horizontal, 12)
-//                .padding(.vertical, 6)
-//                .background(
-//                    RoundedRectangle(cornerRadius: 5)
-//                        .fill(isSelected ? .white : Color.white.opacity(0.25))
-//                )
-//        }
-//        .buttonStyle(.plain)
-//    }
-//}
-
 struct GridLines: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
