@@ -1,3 +1,5 @@
+import SwiftUI
+
 public enum CropAspectRatio: CaseIterable {
     case square
     case portrait3x4
@@ -27,7 +29,7 @@ public enum CropAspectRatio: CaseIterable {
         }
     }
     
-    var displayName: String {
+    var displayName: LocalizedStringKey {
         switch self {
         case .square:
             return "1:1"
@@ -40,7 +42,7 @@ public enum CropAspectRatio: CaseIterable {
         case .landscape16x9:
             return "16:9"
         case .freeform:
-            return "自由比例"
+            return "Freeform"
         }
     }
 }

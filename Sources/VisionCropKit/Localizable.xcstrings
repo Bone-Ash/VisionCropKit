@@ -1,0 +1,41 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "1:1" : {
+      "shouldTranslate" : false
+    },
+    "3:4" : {
+      "shouldTranslate" : false
+    },
+    "4:3" : {
+      "shouldTranslate" : false
+    },
+    "9:16" : {
+      "shouldTranslate" : false
+    },
+    "16:9" : {
+      "shouldTranslate" : false
+    },
+    "Crop" : {
+      "localizations" : {
+        "zh" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裁切"
+          }
+        }
+      }
+    },
+    "Freeform" : {
+      "localizations" : {
+        "zh" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自由比例"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

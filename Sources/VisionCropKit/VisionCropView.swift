@@ -65,8 +65,8 @@ public struct VisionCropView: View {
             .buttonStyle(.plain)
         }
         .overlay(alignment: .top) {
-            Menu("选择比例" + selectedRatio.displayName) {
-                ForEach(CropAspectRatio.allCases, id: \.displayName) { ratio in
+            Menu(selectedRatio.displayName) {
+                ForEach(CropAspectRatio.allCases, id: \.self) { ratio in
                     Button {
                         selectedRatio = ratio
                         viewModel?.applyRatio(ratio.ratio)
@@ -83,23 +83,16 @@ public struct VisionCropView: View {
             .padding(.top, 22)
         }
         .overlay(alignment: .bottom) {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(viewModel == nil ? .black.opacity(0.2) : .white)
-                .frame(width: 120, height: 44)
-                .overlay {
-                    Text("裁切")
-                        .font(.headline)
-                        .foregroundStyle(.black)
+            Button("Crop", systemImage: "scissors") {
+                if let viewModel {
+                    let croppedImage = cropImage(sourceImage, with: viewModel.normalizedRect)
+                    onComplete(croppedImage)
+                    dismiss()
                 }
-                .onTapGesture {
-                    if let viewModel {
-                        let croppedImage = cropImage(sourceImage, with: viewModel.normalizedRect)
-                        onComplete(croppedImage)
-                        dismiss()
-                    }
-                }
-                .padding(.bottom, 22)
+            }
+            .padding(.bottom, 22)
         }
+        
     }
     
     private func cropImage(_ image: UIImage, with rect: CGRect) -> UIImage {
