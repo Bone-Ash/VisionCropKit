@@ -38,7 +38,7 @@ public struct VisionCropView: View {
                         viewModel = CropViewModel(
                             containerSize: geometry.size,
                             imageAspect: sourceImage.size.width / sourceImage.size.height,
-                            ratio: selectedRatio.ratio,
+                            cropRatio: selectedRatio.ratio,
                             initialCropRect: initialRect,
                             onRectChange: { rect in
                                 self.cropRect = rect

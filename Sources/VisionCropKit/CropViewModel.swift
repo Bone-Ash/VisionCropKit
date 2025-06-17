@@ -10,7 +10,7 @@ final class CropViewModel {
     init(
         containerSize: CGSize,
         imageAspect: CGFloat,
-        ratio: CropRatio,
+        cropRatio: CropRatio,
         initialCropRect: CGRect? = nil,
         onRectChange: @escaping (CGRect) -> Void
     ) {
@@ -21,7 +21,7 @@ final class CropViewModel {
         if let initialRect = initialCropRect {
             cropRect = Self.cropRectFromNormalized(initialRect, in: imageRect)
         } else {
-            cropRect = Self.makeCropFrame(in: imageRect, ratio: ratio)
+            cropRect = Self.makeCropFrame(in: imageRect, ratio: cropRatio)
         }
         
         onRectChange(normalizedRect)
